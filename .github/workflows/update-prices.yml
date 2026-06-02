@@ -55,23 +55,34 @@ jobs:
 
 
 
-          # ===== FETCH FUNCTION =====
+          # ===== FETCH BINANCE ALPHA PRICES =====
 
-          def get_latest_price(symbol):
-              url = f"https://app.ondo.finance/api/v2/assets/{symbol}/history?range=1min"
+          url = "https://www.binance.com/bapi/defi/v1/public/alpha-trade/aggTicker24?dataType=aggregate"
 
-              response = requests.get(url)
+          response = requests.get(url)
 
-              data = response.json()
+          data = response.json()["data"]
 
-              return data["primaryMarketPrice"][-1]["value"]
+          muon_price = None
+          tsmon_price = None
+          googlon_price = None
 
+          for item in data:
 
-          # ===== FETCH PRICES =====
+              symbol = item.get("symbol")
 
-          muon_price = get_latest_price("muon")
-          tsmon_price = get_latest_price("tsmon")
-          googlon_price = get_latest_price("googlon")
+              if symbol == "MUon":
+                  muon_price = float(item["price"])
+
+              elif symbol == "TSMon":
+                  tsmon_price = float(item["price"])
+
+              elif symbol == "GOOGLon":
+                  googlon_price = float(item["price"])
+
+          print("MUon:", muon_price)
+          print("TSMon:", tsmon_price)
+          print("GOOGLon:", googlon_price)
 
 
           # ===== CALCULATIONS =====
