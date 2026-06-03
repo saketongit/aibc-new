@@ -120,7 +120,25 @@ jobs:
           print("GOOGLon candles:", len(googlon_history))
 
           print("MUon history type:", type(muon_history))
-          print(muon_history)
+          print("MUon first candle:")
+          print(muon_history[0])
+
+          print("MUon last candle:")
+          print(muon_history[-1])
+
+          print("TSMon history type:", type(tsmon_history))
+          print("TSMon first candle:")
+          print(tsmon_history[0])
+
+          print("TSMon last candle:")
+          print(tsmon_history[-1])
+
+          print("GOOGLon history type:", type(googlon_history))
+          print("GOOGLon first candle:")
+          print(googlon_history[0])
+
+          print("GOOGLon last candle:")
+          print(googlon_history[-1])
 
 
           # ===== CALCULATIONS =====
