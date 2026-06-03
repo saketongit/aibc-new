@@ -52,6 +52,24 @@ jobs:
 
           ADJUSTED_PE = NASDAQ_PE - 10
 
+          # ===== BINANCE HISTORY =====
+
+          def get_daily_klines(token_address):
+
+              url = (
+                  "https://www.binance.com/bapi/defi/v1/public/"
+                  "alpha-trade/agg-klines"
+                  f"?chainId=56"
+                  f"&interval=1d"
+                  f"&tokenAddress={token_address}"
+                  f"&dataType=aggregate"
+              )
+
+              response = requests.get(url)
+
+              data = response.json()
+
+              return data["data"]
 
 
 
@@ -83,6 +101,26 @@ jobs:
           print("MUon:", muon_price)
           print("TSMon:", tsmon_price)
           print("GOOGLon:", googlon_price)
+
+          # ===== FETCH HISTORICAL DATA =====
+          muon_history = get_daily_klines(
+              "0x8b6acf6041a81567f012ff6a4c6d96d5818d74bf"
+          )
+
+          tsmon_history = get_daily_klines(
+              "0xc37042a7a4fa510d8884a433762ab87257b91965"
+          )
+
+          googlon_history = get_daily_klines(
+              "0x091fc7778e6932d4009b087b191d1ee3bac5729a"
+          )
+
+          print("MUon candles:", len(muon_history))
+          print("TSMon candles:", len(tsmon_history))
+          print("GOOGLon candles:", len(googlon_history))
+
+          print("MUon first candle:")
+          print(muon_history[0])
 
 
           # ===== CALCULATIONS =====
