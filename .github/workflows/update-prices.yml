@@ -93,6 +93,9 @@ jobs:
 
                       history.append({
                           "date": date,
+                          "open": float(candle[1]),
+                          "high": float(candle[2]),
+                          "low": float(candle[3]),
                           "close": float(candle[4])
                       })
 
