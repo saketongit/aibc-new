@@ -119,8 +119,8 @@ jobs:
           print("TSMon candles:", len(tsmon_history))
           print("GOOGLon candles:", len(googlon_history))
 
-          print("MUon first candle:")
-          print(muon_history[0])
+          print("MUon history type:", type(muon_history))
+          print(muon_history)
 
 
           # ===== CALCULATIONS =====
