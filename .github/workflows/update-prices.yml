@@ -26,6 +26,8 @@ jobs:
           import json
           import requests
           import yfinance as yf
+          from datetime import datetime
+          
           # ===== CONFIG =====
 
           TOTAL_SUPPLY = 1_000_000_000_000
@@ -40,6 +42,10 @@ jobs:
           GOOGLON_BUY_PRICE = 374.30
 
           MUON_UNITS = 0.15248
+
+          MUON_START_DATE = "2026-05-19"
+          TSMON_START_DATE = "2026-05-19"
+          GOOGLON_START_DATE = "2026-05-24"
           
           qqqm = yf.Ticker("QQQM")
 
@@ -70,6 +76,27 @@ jobs:
               data = response.json()
 
               return data["data"]["klineInfos"]
+
+          def build_history(candles, start_date):
+
+              history = []
+
+              for candle in candles:
+
+                  timestamp = int(candle[0]) / 1000
+
+                  date = datetime.utcfromtimestamp(
+                      timestamp
+                  ).strftime("%Y-%m-%d")
+
+                  if date >= start_date:
+
+                      history.append({
+                          "date": date,
+                          "close": float(candle[4])
+                      })
+
+              return history    
 
 
 
@@ -114,6 +141,25 @@ jobs:
           googlon_history = get_daily_klines(
               "0x091fc7778e6932d4009b087b191d1ee3bac5729a"
           )
+
+          muon_chart_history = build_history(
+              muon_history,
+              MUON_START_DATE
+          )
+
+          tsmon_chart_history = build_history(
+              tsmon_history,
+              TSMON_START_DATE
+          )
+
+          googlon_chart_history = build_history(
+              googlon_history,
+              GOOGLON_START_DATE
+          )
+
+          print("Filtered MUon days:", len(muon_chart_history))
+          print("Filtered TSMon days:", len(tsmon_chart_history))
+          print("Filtered GOOGLon days:", len(googlon_chart_history))
 
           print("MUon candles:", len(muon_history))
           print("TSMon candles:", len(tsmon_history))
@@ -184,6 +230,16 @@ jobs:
               "currentGOOGLonValue": current_googlon_value
           }
 
+          history_result = {
+              "muon": muon_chart_history,
+              "tsmon": tsmon_chart_history,
+              "googlon": googlon_chart_history
+          }
+
+          with open("data/history.json", "w") as f:
+              json.dump(history_result, f, indent=2)
+          
+          
           with open("data/prices.json", "w") as f:
               json.dump(result, f, indent=2)
 
@@ -197,6 +253,7 @@ jobs:
           git config user.email "github-actions@github.com"
 
           git add data/prices.json
+          git add data/history.json
 
           git diff --cached --quiet || git commit -m "Update investai prices"
 
