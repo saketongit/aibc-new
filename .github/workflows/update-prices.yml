@@ -233,11 +233,92 @@ jobs:
               "currentGOOGLonValue": current_googlon_value
           }
 
+          valuation_history = []
+
+          all_dates = set()
+
+          for item in muon_chart_history:
+              all_dates.add(item["date"])
+
+          for item in tsmon_chart_history:
+              all_dates.add(item["date"])
+
+          for item in googlon_chart_history:
+              all_dates.add(item["date"])
+
+          all_dates = sorted(all_dates)
+
+          muon_map = {
+              x["date"]: x["close"]
+              for x in muon_chart_history
+          }
+
+          tsmon_map = {
+              x["date"]: x["close"]
+              for x in tsmon_chart_history
+          }
+
+          googlon_map = {
+              x["date"]: x["close"]
+              for x in googlon_chart_history
+          }
+
+          for date in all_dates:
+
+              muon_price = muon_map.get(date)
+              tsmon_price = tsmon_map.get(date)
+              googlon_price = googlon_map.get(date)
+
+              muon_value = (
+                  muon_units * muon_price
+                  if muon_price is not None
+                  else 0
+              )
+
+              tsmon_value = (
+                  tsmon_units * tsmon_price
+                  if tsmon_price is not None
+                  else 0
+              )
+
+              googlon_value = (
+                  googlon_units * googlon_price
+                  if googlon_price is not None
+                  else 0
+              )
+
+              portfolio_value = (
+                  muon_value +
+                  tsmon_value +
+                  googlon_value
+              )
+
+              profit = (
+                  portfolio_value -
+                  invested_amount
+              )
+
+              valuation = max(
+                  0,
+                  profit * ADJUSTED_PE
+              )
+
+              valuation_history.append({
+                  "date": date,
+                  "value": round(
+                      valuation,
+                      2
+                  )
+              })
+
           history_result = {
               "muon": muon_chart_history,
               "tsmon": tsmon_chart_history,
-              "googlon": googlon_chart_history
+              "googlon": googlon_chart_history,
+              "valuation": valuation_history
           }
+
+
 
           with open("data/history.json", "w") as f:
               json.dump(history_result, f, indent=2)

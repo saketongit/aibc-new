@@ -636,6 +636,29 @@ button.holding-card:hover, button.holding-card:focus-visible {
   line-height: inherit;
 }
 
+#investai-history-chart {
+    margin: 3rem 0;
+    text-align: center;
+}
+
+#investai-history-chart h2 {
+    margin-bottom: 1rem;
+}
+
+.chart-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    border-radius: 16px;
+    background: var(--card-bg, white);
+}
+
+.chart-wrapper canvas {
+    width: 100% !important;
+    height: 450px !important;
+}
+
 @media screen and (max-width: 760px) {
   .holdings-grid {
     grid-template-columns: 1fr;

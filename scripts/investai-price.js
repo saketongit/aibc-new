@@ -231,3 +231,179 @@ async function loadTokenPrice() {
 }
 
 loadTokenPrice();
+
+async function loadHistoryChart() {
+
+    try {
+
+        const response =
+            await fetch('./data/history.json?v=' + Date.now());
+
+        const history = await response.json();
+
+        const allDates = new Set();
+
+        history.muon.forEach(item => allDates.add(item.date));
+        history.tsmon.forEach(item => allDates.add(item.date));
+        history.googlon.forEach(item => allDates.add(item.date));
+
+        const labels = [...allDates].sort();
+
+        const muonMap = {};
+        history.muon.forEach(item => {
+            muonMap[item.date] = item.close;
+        });
+
+        const tsmonMap = {};
+        history.tsmon.forEach(item => {
+            tsmonMap[item.date] = item.close;
+        });
+
+        const googlonMap = {};
+        history.googlon.forEach(item => {
+            googlonMap[item.date] = item.close;
+        });
+
+        const muonData = labels.map(date =>
+            muonMap[date] ?? null
+        );
+
+        const tsmonData = labels.map(date =>
+            tsmonMap[date] ?? null
+        );
+
+        const googlonData = labels.map(date =>
+            googlonMap[date] ?? null
+        );
+
+        const ctx =
+            document
+            .getElementById('investaiChart')
+            .getContext('2d');
+
+        const muonGradient =
+            ctx.createLinearGradient(0, 0, 0, 500);
+
+        muonGradient.addColorStop(
+            0,
+            'rgba(117,87,242,0.75)'
+        );
+
+        muonGradient.addColorStop(
+            0.6,
+            'rgba(117,87,242,0.15)'
+        );
+
+        const tsmonGradient =
+            ctx.createLinearGradient(0, 0, 0, 500);
+
+        tsmonGradient.addColorStop(
+            0,
+            'rgba(46,199,116,0.75)'
+        );
+
+
+
+        tsmonGradient.addColorStop(
+            0.3,
+            'rgba(46,199,116,0.15)'
+        );
+
+        const googlonGradient =
+            ctx.createLinearGradient(0, 0, 0, 500);
+
+        googlonGradient.addColorStop(
+            0,
+            'rgba(244,163,0,0.75)'
+        );
+
+        
+
+
+        googlonGradient.addColorStop(
+            0.3,
+            'rgba(244,163,0,0.15)'
+        );
+
+        new Chart(ctx, {
+            type: 'line',
+
+            data: {
+                labels,
+
+                datasets: [
+                    {
+                        label: 'MUon',
+                        data: muonData,
+                        spanGaps: true,
+                        backgroundColor: muonGradient,
+                        fill: true,
+                        borderWidth: 3,
+                        borderColor: '#7557F2',
+                        tension: 0.3,
+                        pointRadius: 0,
+                        pointHoverRadius: 6
+                    },
+
+                    {
+                        label: 'TSMon',
+                        data: tsmonData,
+                        spanGaps: true,
+                        backgroundColor: tsmonGradient,
+                        fill: true,
+                        borderWidth: 3,
+                        borderColor: '#2EC774',
+                        tension: 0.3,
+                        pointRadius: 0,
+                        pointHoverRadius: 6
+                    },
+
+                    {
+                        label: 'GOOGLon',
+                        data: googlonData,
+                        spanGaps: true,
+                        backgroundColor: googlonGradient,
+                        fill: true,
+                        borderWidth: 3,
+                        borderColor: '#F4A300',
+                        tension: 0.3,
+                        pointRadius: 0,
+                        pointHoverRadius: 6
+                    }
+                ]
+            },
+
+            options: {
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+
+                elements: {
+                    point: {
+                        radius: 0
+                    }
+                },
+
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                }
+            }
+        });
+
+    } catch(error) {
+
+        console.error(
+            'History chart error:',
+            error
+        );
+    }
+}
+
+loadHistoryChart();
