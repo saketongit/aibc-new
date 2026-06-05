@@ -407,3 +407,117 @@ async function loadHistoryChart() {
 }
 
 loadHistoryChart();
+
+async function loadValuationChart() {
+
+    try {
+
+        const response =
+            await fetch(
+                './data/history.json?v=' +
+                Date.now()
+            );
+
+        const history =
+            await response.json();
+
+        const labels =
+            history.valuation.map(
+                item => item.date
+            );
+
+        const valuationData =
+            history.valuation.map(
+                item => item.value
+            );
+
+        const ctx =
+            document
+            .getElementById(
+                'valuationChart'
+            )
+            .getContext('2d');
+
+        const valuationGradient =
+            ctx.createLinearGradient(
+                0,
+                0,
+                0,
+                500
+            );
+
+        valuationGradient.addColorStop(
+            0,
+            'rgba(117,87,242,0.75)'
+        );
+
+        valuationGradient.addColorStop(
+            0.6,
+            'rgba(117,87,242,0.15)'
+        );
+
+        new Chart(ctx, {
+
+            type: 'line',
+
+            data: {
+
+                labels,
+
+                datasets: [
+
+                    {
+                        label: 'AIBC Valuation',
+
+                        data:
+                            valuationData,
+
+                        backgroundColor:
+                            valuationGradient,
+
+                        fill: true,
+
+                        borderWidth: 3,
+
+                        borderColor:
+                            '#7557F2',
+
+                        tension: 0.3,
+
+                        pointRadius: 0,
+
+                        pointHoverRadius: 6
+                    }
+                ]
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+
+                plugins: {
+
+                    legend: {
+                        position: 'top'
+                    }
+                }
+            }
+        });
+
+    } catch(error) {
+
+        console.error(
+            'Valuation chart error:',
+            error
+        );
+    }
+}
+
+loadValuationChart();
