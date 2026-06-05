@@ -7,6 +7,7 @@
 
 :root {
   font-size: clamp(1rem, 1.2vmax, 1.2rem);
+  --content-width: min(52rem, calc(100vw - 3rem));
 }
 
 html,
@@ -421,7 +422,7 @@ table td:last-of-type {
   }
 }
 #contribution_card {
-  width: min(52rem, 100vw - 3rem);
+  width: var(--content-width);
   margin-top: 1rem;
   padding-top: 1.6rem;
   border-top: 1px solid rgba(var(--text-color), 0.12);
@@ -497,7 +498,7 @@ table td:last-of-type {
   }
 }
 .holdings-section {
-  width: min(52rem, 100vw - 3rem);
+  width: var(--content-width);
   padding-top: 1.6rem;
   border-top: 1px solid rgba(var(--text-color), 0.12);
   text-align: left;
@@ -695,9 +696,17 @@ button.holding-card:hover, button.holding-card:focus-visible {
   margin-bottom: 1rem;
 }
 
+#investai-valuation-chart {
+  margin: 3rem 0;
+  text-align: center;
+}
+
+#investai-valuation-chart h2 {
+  margin-bottom: 1rem;
+}
+
 .chart-wrapper {
-  width: 100%;
-  max-width: 1200px;
+  width: var(--content-width);
   margin: 0 auto;
   padding: 1rem;
   border-radius: 16px;
