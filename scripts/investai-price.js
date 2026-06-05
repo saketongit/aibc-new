@@ -392,6 +392,19 @@ async function loadHistoryChart() {
                 plugins: {
                     legend: {
                         position: 'top'
+                    },
+
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return (
+                                    context.dataset.label +
+                                    ': ' +
+                                    context.parsed.y.toFixed(2) +
+                                    ' USDT'
+                                );
+                            }
+                        }
                     }
                 }
             }
@@ -506,6 +519,19 @@ async function loadValuationChart() {
 
                     legend: {
                         position: 'top'
+                    },
+
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return (
+                                    context.dataset.label +
+                                    ': ' +
+                                    context.parsed.y.toFixed(2) +
+                                    ' USDT'
+                                );
+                            }
+                        }
                     }
                 }
             }
