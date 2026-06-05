@@ -293,9 +293,27 @@ jobs:
                   googlon_value
               )
 
+              historical_invested = 0
+
+              if date >= "2026-05-19":
+                  historical_invested += MUON_INVESTED
+
+              if date >= "2026-05-19":
+                  historical_invested += TSMON_INVESTED
+
+              if date >= "2026-05-24":
+                  historical_invested += GOOGLON_INVESTED
+
               profit = (
                   portfolio_value -
-                  invested_amount
+                  historical_invested
+              )
+
+              print(
+                  date,
+                  round(portfolio_value, 2),
+                  round(historical_invested, 2),
+                  round(profit, 2)
               )
 
               valuation = max(
