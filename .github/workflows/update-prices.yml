@@ -263,11 +263,32 @@ jobs:
               for x in googlon_chart_history
           }
 
+          last_muon_price = None
+          last_tsmon_price = None
+          last_googlon_price = None
+
           for date in all_dates:
 
               muon_price = muon_map.get(date)
+
+              if muon_price is not None:
+                  last_muon_price = muon_price
+              else:
+                  muon_price = last_muon_price
+
               tsmon_price = tsmon_map.get(date)
+
+              if tsmon_price is not None:
+                  last_tsmon_price = tsmon_price
+              else:
+                  tsmon_price = last_tsmon_price
+
               googlon_price = googlon_map.get(date)
+
+              if googlon_price is not None:
+                  last_googlon_price = googlon_price
+              else:
+                  googlon_price = last_googlon_price
 
               muon_value = (
                   muon_units * muon_price
