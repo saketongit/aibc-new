@@ -1,14 +1,14 @@
 {
-  "tokenPrice": 4.3351062579026564e-10,
-  "portfolioValue": 223.02454920051403,
-  "profit": 21.088262200514038,
-  "valuation": 433.51062579026564,
+  "tokenPrice": 4.2304204674885656e-10,
+  "portfolioValue": 222.51530184518197,
+  "profit": 20.579014845181973,
+  "valuation": 423.04204674885654,
   "nasdaqPE": 30.556963,
   "adjustedPE": 20.556963,
-  "muonPrice": 815.865,
-  "tsmonPrice": 404.29,
-  "googlonPrice": 353.1,
-  "currentMuonValue": 124.40309520000001,
-  "currentTSMonValue": 51.453406979407944,
-  "currentGOOGLonValue": 47.16804702110607
+  "muonPrice": 814.075,
+  "tsmonPrice": 403.74,
+  "googlonPrice": 351.855,
+  "currentMuonValue": 124.13015600000001,
+  "currentTSMonValue": 51.38340927024206,
+  "currentGOOGLonValue": 47.00173657493989
 }
